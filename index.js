@@ -6,7 +6,7 @@ logs msg image deletes (can be multiple images)
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
-
+var servers = {}
 // var servers = {
 //     "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
 //     "774391468646989866":"805287348434239489", //fish lake
@@ -25,7 +25,7 @@ const client = new Client({
 });
 
 client.on('ready', (c) => {
-    var servers = {}
+    
     (client.guilds.array()).forEach((guild) => {
         servers.set(guild.id, guild.systemChannelId);
     })
@@ -33,16 +33,17 @@ client.on('ready', (c) => {
     console.log("bot online");
 })
 
-// client.on("guildCreate", guild => {
-//     console.log("Joined a new guild: " + guild.name);
-//     servers.set(guild.id, guild.systemChannelId);
-// })
+//joined a server
+client.on("guildCreate", guild => {
+    console.log("Joined a new guild: " + guild.name);
+    servers.set(guild.id, guild.systemChannelId);
+})
 
-// //removed from a server
-// client.on("guildDelete", guild => {
-//     console.log("Left a guild: " + guild.name);
-//     delete server[guild.id];    
-// })
+//removed from a server
+client.on("guildDelete", guild => {
+    console.log("Left a guild: " + guild.name);
+    delete server[guild.id];    
+})
 
 
 //message delete logger
