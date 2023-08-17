@@ -43,4 +43,25 @@ client.on('messageDelete', message => {
         }
     }
 })
+
+
+client.on('messageUpdate', (oldMessage, newMessage) => {
+    console.log("msg edit");
+    if (!oldMessage.partial && !newMessage.partial){
+        const channel = client.channels.cache.get('1141225224910667828')
+        if (channel)
+        {
+            const embed = new EmbedBuilder()
+            embed.setTitle('msg edit')
+            embed.addFields(
+                { name: 'old', value: `${oldMessage.content}` },
+                { name: 'new', value: `${newMessage.content}` },
+                { name: 'user', value: `${newMessage.author}` },
+                { name: 'channel', value: `${newMessage.channel}` }
+            )
+            embed.setTimestamp();
+            channel.send({ embeds: [embed] });
+        }
+    }
+})
 client.login("MTE0MTIzODMyNjM5ODAyNTgxOQ.GFGV9m.0aqWdt6r_5w0W60mBz_pf2iTM1Hak_sY6BwlyE")
