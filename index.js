@@ -3,7 +3,6 @@ logs msg deletes
 logs msg edit
 logs msg image deletes (can be multiple images) 
 */
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
