@@ -44,7 +44,6 @@ client.on('messageDelete', message => {
     }
 })
 
-
 client.on('messageUpdate', (oldMessage, newMessage) => {
     console.log("msg edit");
     if (!oldMessage.partial && !newMessage.partial){
