@@ -14,40 +14,32 @@ const client = new Client({
 client.on('ready', (c) => {
     console.log("bot online");
 })
+
 client.on('messageDelete', message => {
     console.log("bot del");
     if (!message.partial){
         const channel = client.channels.cache.get('1141225224910667828')
-        //let messageAttachment = message.attachments.size > 0 ? message.attachments.array()[0].url : null
         if (channel)
         {
-            try {
             const embed = new EmbedBuilder()
-                .setTitle('msg delete')
-                .addFields(
-                    { name: 'user', value: `${message.author}` },
-                    { name: 'channel', value: `${message.channel}` },
-                )
-                .setDescription(message.content)
-                //.setImage(message.attachments[0].url)
-                .setTimestamp();
-                channel.send({ embeds: [embed] });
-            }
-            catch (e)
+            embed.setTitle('msg delete')
+            embed.addFields(
+                { name: 'user', value: `${message.author}` },
+                { name: 'channel', value: `${message.channel}` },
+            )
+            embed.setTimestamp();
+            if (message.content != "")
             {
-                const embed = new EmbedBuilder()
-                .setTitle('msg delete')
-                .addFields(
-                    { name: 'user', value: `${message.author}` },
-                    { name: 'channel', value: `${message.channel}` },
-                )
-                .setDescription("null")
-                //.setImage(message.attachments[0].url)
-                .setTimestamp();
-                channel.send({ embeds: [embed] });
+                embed.setDescription(message.content)
+            }
+            if (message.attachments.size !== 0 ) {
+                console.log("image del");
+                let attachments = message.attachments.first();
+                console.log(`${attachments.url}`);
+                embed.setImage(attachments.url)
             }
             
-            
+            channel.send({ embeds: [embed] });
         }
     }
 })
