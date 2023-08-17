@@ -6,7 +6,15 @@ logs msg image deletes (can be multiple images)
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
-const chan = "1141225224910667828"; //temp, sets channel of logs
+
+// var servers = {
+//     "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
+//     "774391468646989866":"805287348434239489", //fish lake
+//     "1141594003859574905":"1141594026064224396", //etgs (test server 1)
+//     "1141619892353773638":"1141619939678109726" //ff (test server 2)
+// }
+
+//temp, sets channel of logs
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -17,12 +25,31 @@ const client = new Client({
 });
 
 client.on('ready', (c) => {
+    var servers = {}
+    (client.guilds.array()).forEach((guild) => {
+        servers.set(guild.id, guild.systemChannelId);
+    })
+
     console.log("bot online");
 })
 
+// client.on("guildCreate", guild => {
+//     console.log("Joined a new guild: " + guild.name);
+//     servers.set(guild.id, guild.systemChannelId);
+// })
+
+// //removed from a server
+// client.on("guildDelete", guild => {
+//     console.log("Left a guild: " + guild.name);
+//     delete server[guild.id];    
+// })
+
+
 //message delete logger
 client.on('messageDelete', message => {
+    var chan = servers[message.guild.id];
     console.log("bot del");
+    if (message.author.bot) return;
     if (!message.partial){ //makes sure message isnt partial
         const channel = client.channels.cache.get(chan) //get channel id of log channel
         if (channel)
@@ -52,11 +79,13 @@ client.on('messageDelete', message => {
 
 updatemes = true;
 client.on('messageUpdate', (oldMessage, newMessage) => {
+    if (newMessage.author.bot) return;
     if (!updatemes && (oldMessage.content == newMessage.content)) //fixes the double message update when deleting images
     {
         updatemes = true;
         return;
     }
+    var chan = servers[oldMessage.guild.id];
     console.log("msg edit");
     console.log(oldMessage.attachments.size);
     console.log(newMessage.attachments.size);
