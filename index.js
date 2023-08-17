@@ -25,9 +25,8 @@ const client = new Client({
 });
 
 client.on('ready', (c) => {
-    
-    (client.guilds.array()).forEach((guild) => {
-        servers.set(guild.id, guild.systemChannelId);
+    (client.guilds.cache).forEach((guild) => {
+        servers[guild.id] = guild.systemChannelId;
     })
 
     console.log("bot online");
@@ -36,7 +35,7 @@ client.on('ready', (c) => {
 //joined a server
 client.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
-    servers.set(guild.id, guild.systemChannelId);
+    servers[guild.id] = guild.systemChannelId;
 })
 
 //removed from a server
