@@ -1,7 +1,13 @@
+/*
+logs msg deletes
+logs msg edit
+logs msg image deletes (can be multiple images) 
+*/
+
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
-
+const chan = "1141594026064224396"; //temp, sets channel of logs
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -19,7 +25,7 @@ client.on('ready', (c) => {
 client.on('messageDelete', message => {
     console.log("bot del");
     if (!message.partial){ //makes sure message isnt partial
-        const channel = client.channels.cache.get('1141225224910667828') //get channel id of log channel
+        const channel = client.channels.cache.get(chan) //get channel id of log channel
         if (channel)
         {
             const embed = new EmbedBuilder() // create embed
@@ -44,9 +50,10 @@ client.on('messageDelete', message => {
         }
     }
 })
+
 updatemes = true;
 client.on('messageUpdate', (oldMessage, newMessage) => {
-    if (!updatemes && (oldMessage.content == newMessage.content))
+    if (!updatemes && (oldMessage.content == newMessage.content)) //fixes the double message update when deleting images
     {
         updatemes = true;
         return;
@@ -55,12 +62,12 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     console.log(oldMessage.attachments.size);
     console.log(newMessage.attachments.size);
     if (!oldMessage.partial && !newMessage.partial){
-        const channel = client.channels.cache.get('1141225224910667828')
+        const channel = client.channels.cache.get(chan)
         if (channel)
         {
             const embed = new EmbedBuilder()
             embed.setTitle('msg edit')
-            if (oldMessage.attachments.size !== 0 && newMessage.attachments.size == 0)
+            if (oldMessage.attachments.size !== 0 && newMessage.attachments.size == 0) //if only one image del
             {
                 embed.addFields(
                     { name: 'changes', value: "image was removed" },
@@ -70,36 +77,39 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 console.log("one image attached");
                 updatemes = false;
             }
-            else if (oldMessage.attachments.size > newMessage.attachments.size) {
+            else if (oldMessage.attachments.size > newMessage.attachments.size) { //if there are more than one images
                 embed.addFields(
                     { name: 'changes', value: "image was removed" },
                 )
-                newMessage.attachments.forEach((neww) => {
+                newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
                     let checker = true;
                     let attachments = neww;
                     oldMessage.attachments.forEach((old) => {
-                        if (neww == old)
+                        if (neww == old) //if image is not deleted then no point in continue
                         {
                             checker == false;
+                            return;
                         }
                         else {
                             attachments = old;
                         }
                     });
-                    if (checker)
+                    if (checker) //if image is found deleted then add to embed
                     {
                         console.log("old msg attached");
                         embed.setImage(attachments.url)
+                        return;
                     }
                 });
                 updatemes = false;
             }
 
-            else {
+            else { //only text update
                 embed.addFields(
                     { name: 'old', value: `${oldMessage.content}` },
                     { name: 'new', value: `${newMessage.content}` }
                 )
+                console.log("text was updated")
             }
             embed.addFields(
                 { name: 'user', value: `${newMessage.author}` },
@@ -112,4 +122,5 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     }
     
 })
-client.login("MTE0MTIzODMyNjM5ODAyNTgxOQ.GFGV9m.0aqWdt6r_5w0W60mBz_pf2iTM1Hak_sY6BwlyE")
+
+client.login(process.env.DISCORD_TOKEN)
