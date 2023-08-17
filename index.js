@@ -6,7 +6,7 @@ logs msg image deletes (can be multiple images)
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
-const chan = "1141594026064224396"; //temp, sets channel of logs
+const chan = "1141225224910667828"; //temp, sets channel of logs
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
