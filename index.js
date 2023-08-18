@@ -20,19 +20,19 @@ if theres a certification error, it means your wifi is blocking something, use h
 require('dotenv').config();
 const {Client, GatewayIntentBits, Routes, REST, EmbedBuilder} = require('discord.js')
 const {logCommand} = require('./commands/setLogChannel.js');
-
+const fs = require('fs')
 const TOKEN = process.env.DISCORD_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
 
 
 var servers = {}
-servers = {
-    "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
-    "774391468646989866":"805287348434239489", //fish lake
-    "1141594003859574905":"1141594026064224396", //etgs (test server 1)
-    "1141619892353773638":"1141619939678109726" //ff (test server 2)
-}
+// servers = {
+//     "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
+//     "774391468646989866":"805287348434239489", //fish lake
+//     "1141594003859574905":"1141594026064224396", //etgs (test server 1)
+//     "1141619892353773638":"1141619939678109726" //ff (test server 2)
+// }
 
 const client = new Client({
 	intents: [
@@ -45,21 +45,45 @@ const client = new Client({
 
 client.on('ready', (c) => {
     // (client.guilds.cache).forEach((guild) => {
+    //     fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;})
+    //     fs.appendFile('ids.txt', guild.name + "\n" + guild.id +\nthing\ninds\n\n" , (err) => {if (err) throw err;}) 
     //     servers[guild.id] = guild.systemChannelId;
     // })
+    // line = rawFile.responseText.split("\n");
+    // for (let i = 0; i < line.length; i = i+4){
 
+    // }
+    fs.readFile('ids.txt', function(err, data) {
+        if(err) throw err;
+        var array = data.toString().split("\n");
+        for (let i = 0; i < array.length; i = i + 4)
+        {
+            server.set(array[i+1], array[i+2]);
+        }
+    });
     console.log("bot online");
 })
 
 //joined a server
 client.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
+    fs.appendFile('ids.txt', guild.name+"\n"+guild.id+"\n"+guild.systemChannelId, (err) => {if (err) throw err;})
     servers[guild.id] = guild.systemChannelId;
 })
 
 //removed from a server
 client.on("guildDelete", guild => {
-    console.log("Left a guild: " + guild.name);
+    console.log("Left a guild: " + guild.name)
+    fs.readFile('ids.txt', function(err, data) {
+        if(err) throw err;
+        var array = data.toString().split("\n");
+        array[array.indexOf(guild.guildId)] = "";
+        // delete 4 lines in array
+        //remove from dictionary
+
+        const stringa = array.join('\n');
+        fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
+    });
     delete server[guild.id];    
 })
 
@@ -171,34 +195,40 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     
 })
 
-// client.on('interactionCreate', (interaction) => {
-//     if (!interaction.isChatInputCommand()) return;
+client.on('interactionCreate', (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
   
-//     if (interaction.commandName === 'channel log') {
-//       const num1 = interaction.options.get('channel').value;
-//       servers[interaction.guildId] = num1;
-//       interaction.reply(`The log channel is updated to ${num1.url}`);
-//     }
-//   });
+    if (interaction.commandName === 'channel log') {
+        const channel = interaction.options.get('channel').value;
+        interaction.reply(`The log channel is updated to ${client.channels.cache.get(channel)}`);
+        fs.readFile('ids.txt', function(err, data) {
+            if(err) throw err;
+            var array = data.toString().split("\n");
+            array[array.indexOf(interaction.guildId) + 1] = channel;
+            const stringa = array.join('\n');
+            fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
+        });
+    }
+});
 
 
-// const rest = new REST({ version: '10' }).setToken(TOKEN);
-// const commands = [logCommand];
-// (async () => {
-// 	try {
-// 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+const rest = new REST({ version: '10' }).setToken(TOKEN);
+const commands = [logCommand];
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-// 		// The put method is used to fully refresh all commands in the guild with the current set
-// 		const data = await rest.put(
-// 			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
-// 			{ body: logCommand },
-// 		);
+		// The put method is used to fully refresh all commands in the guild with the current set
+		const data = await rest.put(
+			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+			{ body: logCommand },
+		);
 
-// 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-// 	} catch (error) {
-// 		// And of course, make sure you catch and log any errors!
-// 		console.error(error);
-// 	}
-// })();
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		// And of course, make sure you catch and log any errors!
+		console.error(error);
+	}
+})();
 
 client.login(process.env.DISCORD_TOKEN)
