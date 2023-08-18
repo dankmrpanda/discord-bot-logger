@@ -3,6 +3,16 @@ logs msg deletes
 logs msg edit
 logs msg image deletes (can be multiple images) 
 */
+
+/*
+npm init -y
+npm install discord.js
+npm install dotenv
+if theres a certification error, it means your wifi is blocking something, use hotspot
+(school wifi)
+*/
+
+
 require('dotenv').config();
 const {EmbedBuilder}  = require('discord.js')
 const { Client, GatewayIntentBits} = require('discord.js');
