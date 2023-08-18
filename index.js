@@ -1,7 +1,11 @@
 /*
 logs msg deletes
 logs msg edit
-logs msg image deletes (can be multiple images) 
+logs msg image deletes (can be multiple images)
+works for multiple servers
+TODO:
+make slash command set log channel
+save log channel and guild ids into txt file
 */
 
 /*
@@ -14,10 +18,9 @@ if theres a certification error, it means your wifi is blocking something, use h
 
 
 require('dotenv').config();
-const {Client, GatewayIntentBits, Routes, REST} = require('discord.js')
+const {Client, GatewayIntentBits, Routes, REST, EmbedBuilder} = require('discord.js')
 const {logCommand} = require('./commands/setLogChannel.js');
 
-const {EmbedBuilder}  = require('discord.js')
 const TOKEN = process.env.DISCORD_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
@@ -31,7 +34,6 @@ servers = {
     "1141619892353773638":"1141619939678109726" //ff (test server 2)
 }
 
-//temp, sets channel of logs
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -180,23 +182,23 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 //   });
 
 
-const rest = new REST({ version: '10' }).setToken(TOKEN);
-const commands = [logCommand];
-(async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+// const rest = new REST({ version: '10' }).setToken(TOKEN);
+// const commands = [logCommand];
+// (async () => {
+// 	try {
+// 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationGuildCommands(`${CLIENT_ID}, ${GUILD_ID}`),
-			{ body: logCommand },
-		);
+// 		// The put method is used to fully refresh all commands in the guild with the current set
+// 		const data = await rest.put(
+// 			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+// 			{ body: logCommand },
+// 		);
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
+// 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+// 	} catch (error) {
+// 		// And of course, make sure you catch and log any errors!
+// 		console.error(error);
+// 	}
+// })();
 
 client.login(process.env.DISCORD_TOKEN)

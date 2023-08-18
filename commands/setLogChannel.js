@@ -1,13 +1,42 @@
-const { SlashCommandBuilder } = require('discord.js');
+/*
+node register-commands.js
+updates slash cmd
+*/
 
-module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('channel log')
-		.setDescription('chooses channel to set as log channel')
-		.addChannelOption((option) =>
-		option.setName("channel").setDescription("chooses channel to set as log channel").setRequired(true)
-	),
-	async execute(interaction) {
-		await interaction.reply('Pong!');
-	},
-};
+require('dotenv').config();
+const { REST, Routes, ApplicationCommandOptionType } = require('discord.js');
+
+const commands = [
+  {
+    name: 'log-channel',
+    description: 'Sets chosen Channel as Log Channel',
+    options: [
+      {
+        name: 'channel',
+        description: 'Choose the channel you want logs to be in',
+        type: ApplicationCommandOptionType.Channel,
+        channel_types: [0],
+        required: true,
+      },
+    ],
+  },
+];
+
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+(async () => {
+  try {
+    console.log('Registering slash commands...');
+
+    await rest.put(
+      Routes.applicationCommands(
+        process.env.CLIENT_ID
+      ),
+      { body: commands }
+    );
+
+    console.log('Slash commands were registered successfully!');
+  } catch (error) {
+    console.log(`There was an error: ${error}`);
+  }
+})();
