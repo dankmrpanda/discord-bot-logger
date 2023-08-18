@@ -14,8 +14,15 @@ if theres a certification error, it means your wifi is blocking something, use h
 
 
 require('dotenv').config();
+const {Client, GatewayIntentBits, Routes, REST} = require('discord.js')
+const {logCommand} = require('./commands/setLogChannel.js');
+
 const {EmbedBuilder}  = require('discord.js')
-const { Client, GatewayIntentBits} = require('discord.js');
+const TOKEN = process.env.DISCORD_TOKEN;
+const CLIENT_ID = process.env.CLIENT_ID;
+const GUILD_ID = process.env.GUILD_ID;
+
+
 var servers = {}
 servers = {
     "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
@@ -32,7 +39,7 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMembers,
 	],
-});
+}, {GatewayIntentBits});
 
 client.on('ready', (c) => {
     // (client.guilds.cache).forEach((guild) => {
@@ -161,5 +168,35 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     }
     
 })
+
+// client.on('interactionCreate', (interaction) => {
+//     if (!interaction.isChatInputCommand()) return;
+  
+//     if (interaction.commandName === 'channel log') {
+//       const num1 = interaction.options.get('channel').value;
+//       servers[interaction.guildId] = num1;
+//       interaction.reply(`The log channel is updated to ${num1.url}`);
+//     }
+//   });
+
+
+const rest = new REST({ version: '10' }).setToken(TOKEN);
+const commands = [logCommand];
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+		// The put method is used to fully refresh all commands in the guild with the current set
+		const data = await rest.put(
+			Routes.applicationGuildCommands(`${CLIENT_ID}, ${GUILD_ID}`),
+			{ body: logCommand },
+		);
+
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		// And of course, make sure you catch and log any errors!
+		console.error(error);
+	}
+})();
 
 client.login(process.env.DISCORD_TOKEN)
