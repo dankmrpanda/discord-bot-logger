@@ -85,6 +85,7 @@ client.on("guildDelete", guild => {
 
 //message delete logger
 client.on('messageDelete', message => {
+    var files;
     var chan = servers[message.guild.id];
     console.log("bot del");
     if (message.author.bot) return;
@@ -105,12 +106,14 @@ client.on('messageDelete', message => {
             }
             if (message.attachments.size !== 0 ) { //checks for image and logs it
                 console.log("image del");
-                let attachments = message.attachments.first();
+                
+                file = message.attachments.array();
+                // let attachments = message.attachments.first();
                 console.log(`${attachments.url}`);
-                embed.setImage(attachments.url)
+                // embed.setImage(attachments.url)
             }
             
-            channel.send({ embeds: [embed] });
+            channel.send({ embeds: [embed] }, {files: [files]});
         }
     }
 })
