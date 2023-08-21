@@ -94,7 +94,7 @@ client.on('messageDelete', message => {
         {
             const embed = new EmbedBuilder() // create embed
             embed.setTitle('msg delete')
-            embed.addFields(
+            embed.addFields(    
                 { name: 'user', value: `${message.author}` },
                 { name: 'channel', value: `${message.channel}` },
             )
