@@ -17,7 +17,7 @@ if theres a certification error, it means your wifi is blocking something, use h
 (school wifi)
 */
 
-const fs = require('fs')
+const fs = require('fs');
 require('dotenv').config();
 const {Client, GatewayIntentBits, Routes, EmbedBuilder} = require('discord.js');
 
@@ -41,9 +41,9 @@ const client = new Client({
 }, {GatewayIntentBits});
 
 client.on('ready', (c) => {
-    fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;})
+    fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
     (client.guilds.cache).forEach((guild) => {
-        fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n" , (err) => {if (err) throw err;}) 
+        fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n" , (err) => {if (err) throw err;});
         servers[guild.id] = guild.systemChannelId;
     })
     // fs.readFile('ids.txt', function(err, data) {
@@ -60,7 +60,7 @@ client.on('ready', (c) => {
 //joined a server
 client.on("guildCreate", guild => {
     console.log("Joined a new guild: " + guild.name);
-    fs.appendFile('ids.txt', guild.name+"\n"+guild.id+"\n"+guild.systemChannelId, (err) => {if (err) throw err;})
+    fs.appendFile('ids.txt', guild.name+"\n"+guild.id+"\n"+guild.systemChannelId, (err) => {if (err) throw err;});
     servers[guild.id] = guild.systemChannelId;
 })
 
@@ -73,7 +73,7 @@ client.on("guildDelete", guild => {
         array.splice(array.indexOf(guild.guildId), 4);
         delete servers[guild.guildId];
         const stringa = array.join('\n');
-        fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
+        fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
     });
     delete server[guild.id];    
 })
@@ -198,7 +198,7 @@ client.on('interactionCreate', (interaction) => {
             array[array.indexOf(interaction.guildId) + 1] = channel;
             const stringa = array.join('\n');
             servers.set(interaction.guildId, channel)
-            fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
+            fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
         });
     }
 });
