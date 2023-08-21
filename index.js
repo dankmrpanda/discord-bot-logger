@@ -36,7 +36,6 @@ const client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers,
 	],
 }, {GatewayIntentBits});
 
@@ -193,8 +192,8 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 
 client.on('interactionCreate', (interaction) => {
     if (!interaction.isChatInputCommand()) return;
-  
-    if (interaction.commandName === 'channel log') {
+    
+    if (interaction.commandName === 'log-channel') {  
         const channel = interaction.options.get('channel').value;
         interaction.reply(`The log channel is updated to ${client.channels.cache.get(channel)}`);
         fs.readFile('ids.txt', function(err, data) {
@@ -202,10 +201,18 @@ client.on('interactionCreate', (interaction) => {
             var array = data.toString().split("\n");
             array[array.indexOf(interaction.guildId) + 1] = channel;
             const stringa = array.join('\n');
-            servers.set(interaction.guildId, channel)
+            servers[interaction.guildId] =  channel;
             fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
         });
+        console.log("Log Channel Updated to " + client.channels.cache.get(channel));
     }
+
+    if (interaction.commandName === 'logs') {
+        console.log("called logs cmd")
+        const channel = servers[interaction.guildId];
+        interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
+    }
+    
 });
 
 
