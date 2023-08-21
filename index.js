@@ -12,18 +12,15 @@ save log channel and guild ids into txt file
 npm init -y
 npm install discord.js
 npm install dotenv
+npm install fs-extra
 if theres a certification error, it means your wifi is blocking something, use hotspot
 (school wifi)
 */
 
-
-require('dotenv').config();
-const {Client, GatewayIntentBits, Routes, REST, EmbedBuilder} = require('discord.js')
-const {logCommand} = require('./commands/setLogChannel.js');
 const fs = require('fs')
-const TOKEN = process.env.DISCORD_TOKEN;
-const CLIENT_ID = process.env.CLIENT_ID;
-const GUILD_ID = process.env.GUILD_ID;
+require('dotenv').config();
+const {Client, GatewayIntentBits, Routes, EmbedBuilder} = require('discord.js');
+
 
 
 var servers = {}
@@ -44,23 +41,19 @@ const client = new Client({
 }, {GatewayIntentBits});
 
 client.on('ready', (c) => {
-    // (client.guilds.cache).forEach((guild) => {
-    //     fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;})
-    //     fs.appendFile('ids.txt', guild.name + "\n" + guild.id +\nthing\ninds\n\n" , (err) => {if (err) throw err;}) 
-    //     servers[guild.id] = guild.systemChannelId;
-    // })
-    // line = rawFile.responseText.split("\n");
-    // for (let i = 0; i < line.length; i = i+4){
-
-    // }
-    fs.readFile('ids.txt', function(err, data) {
-        if(err) throw err;
-        var array = data.toString().split("\n");
-        for (let i = 0; i < array.length; i = i + 4)
-        {
-            server.set(array[i+1], array[i+2]);
-        }
-    });
+    fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;})
+    (client.guilds.cache).forEach((guild) => {
+        fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n" , (err) => {if (err) throw err;}) 
+        servers[guild.id] = guild.systemChannelId;
+    })
+    // fs.readFile('ids.txt', function(err, data) {
+    //     if(err) throw err;
+    //     var array = data.toString().split("\n");
+    //     for (let i = 0; i < array.length; i = i + 4)
+    //     {
+    //         server.set(array[i+1], array[i+2]);
+    //     }
+    // });
     console.log("bot online");
 })
 
@@ -77,10 +70,8 @@ client.on("guildDelete", guild => {
     fs.readFile('ids.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
-        array[array.indexOf(guild.guildId)] = "";
-        // delete 4 lines in array
-        //remove from dictionary
-
+        array.splice(array.indexOf(guild.guildId), 4);
+        delete servers[guild.guildId];
         const stringa = array.join('\n');
         fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
     });
@@ -206,29 +197,11 @@ client.on('interactionCreate', (interaction) => {
             var array = data.toString().split("\n");
             array[array.indexOf(interaction.guildId) + 1] = channel;
             const stringa = array.join('\n');
+            servers.set(interaction.guildId, channel)
             fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;})
         });
     }
 });
 
-
-const rest = new REST({ version: '10' }).setToken(TOKEN);
-const commands = [logCommand];
-(async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
-
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
-			{ body: logCommand },
-		);
-
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
 
 client.login(process.env.DISCORD_TOKEN)
