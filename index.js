@@ -41,19 +41,24 @@ const client = new Client({
 }, {GatewayIntentBits});
 
 client.on('ready', (c) => {
-    fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
+    // fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
+    var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
-        fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n" , (err) => {if (err) throw err;});
+        var exists = false;
+        for (let i = 0; i < array.length; i++)
+        {
+            //console.log(array[i]);
+            if(guild.name == array[i]){
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n" , (err) => {if (err) throw err;});
+        }
+        
         servers[guild.id] = guild.systemChannelId;
     })
-    // fs.readFile('ids.txt', function(err, data) {
-    //     if(err) throw err;
-    //     var array = data.toString().split("\n");
-    //     for (let i = 0; i < array.length; i = i + 4)
-    //     {
-    //         server.set(array[i+1], array[i+2]);
-    //     }
-    // });
     console.log("bot online");
 })
 
