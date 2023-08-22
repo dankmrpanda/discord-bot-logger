@@ -47,7 +47,7 @@ client.on('ready', (c) => {
         for (let i = 0; i < array.length; i++)
         {
             //console.log(array[i]);
-            if(guild.name == array[i]){
+            if(guild.id == array[i]){
                 exists = true;
                 break;
             }
@@ -85,7 +85,7 @@ client.on("guildDelete", guild => {
 
 //message delete logger
 client.on('messageDelete', message => {
-    var files;
+    var file = [];
     var chan = servers[message.guild.id];
     console.log("bot del");
     if (message.author.bot) return;
@@ -107,13 +107,19 @@ client.on('messageDelete', message => {
             if (message.attachments.size !== 0 ) { //checks for image and logs it
                 console.log("image del");
                 
-                file = message.attachments.array();
+                message.attachments.forEach((msg) => { 
+                    file.push(msg.url)
+                });
                 // let attachments = message.attachments.first();
-                console.log(`${attachments.url}`);
+
+                //console.log(`${attachments.url}`);
                 // embed.setImage(attachments.url)
             }
-            
-            channel.send({ embeds: [embed] }, {files: [files]});
+            async function sends() {
+                await channel.send({embeds: [embed]});
+                await channel.send("Images: ", {files: file});
+            }
+            sends();
         }
     }
 })
