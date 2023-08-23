@@ -4,7 +4,7 @@ updates slash cmd
 */
 
 require('dotenv').config();
-const { REST, Routes, ApplicationCommandOptionType } = require('discord.js');
+const { REST, Routes, ApplicationCommandOptionType, ApplicationCommandPermissionType } = require('discord.js');
 
 const commands = [
   {
@@ -14,11 +14,16 @@ const commands = [
       {
         name: 'channel',
         description: 'Choose the channel you want logs to be in',
-        type: ApplicationCommandOptionType.Channel,
+        type: ApplicationCommandOptionType.Channel, 
         channel_types: [0],
+        // default_member_permissions: 0,
         required: true,
+                
       },
     ],
+    // permissions: [
+    //   "ADMINISTRATOR"
+    // ],
   },
 
   {
