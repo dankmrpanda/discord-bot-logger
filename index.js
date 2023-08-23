@@ -41,22 +41,27 @@ const client = new Client({
 
 client.on('ready', (c) => {
     // fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
+    var setLog;
     var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
         var exists = false;
         for (let i = 0; i < array.length; i++)
         {
-            //console.log(array[i]);
+            
             if(guild.id == array[i]){
+                setLog = array[i + 1];
                 exists = true;
                 break;
             }
         }
         if (!exists) {
             fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n" , (err) => {if (err) throw err;});
+            servers[guild.id] = guild.systemChannelId;
+        }
+        else {
+            servers[guild.id] = setLog;
         }
         
-        servers[guild.id] = guild.systemChannelId;
     })
     console.log("bot online");
 })
@@ -221,8 +226,9 @@ client.on('interactionCreate', (interaction) => {
     }
 
     if (interaction.commandName === 'logs') {
-        console.log("called logs cmd")
+        console.log("called logs cmd");
         const channel = servers[interaction.guildId];
+        console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
     
