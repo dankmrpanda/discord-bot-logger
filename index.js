@@ -86,6 +86,7 @@ client.on("guildDelete", guild => {
 //message delete logger
 client.on('messageDelete', message => {
     var file = [];
+    var attac = false;
     var chan = servers[message.guild.id];
     console.log("bot del");
     if (message.author.bot) return;
@@ -110,6 +111,7 @@ client.on('messageDelete', message => {
                 message.attachments.forEach((msg) => { 
                     file.push(msg.url)
                 });
+                attac = true;
                 // let attachments = message.attachments.first();
 
                 //console.log(`${attachments.url}`);
@@ -117,7 +119,9 @@ client.on('messageDelete', message => {
             }
             async function sends() {
                 await channel.send({embeds: [embed]});
-                await channel.send("Images: ", {files: file});
+                if (attac){
+                    await channel.send({files: file});
+                }
             }
             sends();
         }
