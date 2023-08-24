@@ -15,7 +15,6 @@ find a todo
 npm init -y
 npm install discord.js
 npm install dotenv
-npm install fs-extra
 if theres a certification error, it means your wifi is blocking something, use hotspot
 (school wifi)
 */
