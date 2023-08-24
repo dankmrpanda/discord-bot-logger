@@ -1,5 +1,5 @@
 node_modules/
-/.env
 ids.txt
 package-lock.json
 package.json
+.env
