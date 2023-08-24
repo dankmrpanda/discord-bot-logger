@@ -56,3 +56,7 @@ npm install dotenv
 
 3. Run index.js to start the bot.
    - If you see `Error: self-signed certificate in certificate chain`, it means your wifi is blocking discord connections
+
+###TODO
+
+1. find a todo
