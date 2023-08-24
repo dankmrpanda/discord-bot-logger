@@ -2,7 +2,7 @@
 node commands/setLogChannel.js
 updates slash cmd
 */
-
+//
 require('dotenv').config();
 const { REST, Routes, ApplicationCommandOptionType, ApplicationCommandPermissionType } = require('discord.js');
 
