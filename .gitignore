@@ -1,5 +1,4 @@
 node_modules/
-ids.txt
-package-lock.json
-package.json
+*.txt
+*.json
 .env
