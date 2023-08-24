@@ -2,11 +2,11 @@
 
 ## Features:
 
-Logs: Message Deletes, Edits, Deleted images from an message
+Logs: Message Deletes, Edits, Deleted images from a message
 
 Saves log channel for each server
 
-Doesn't Log any bot actions
+Does not log any bot actions
 
 
 ## Slash Commands
@@ -15,11 +15,25 @@ Doesn't Log any bot actions
 
 /log-channel <channel>: sets selected channel to log channel
 
+
 ## Files
 
 index.js: Main file
 
-commands/setLogChannel.js: Slash commands 
+commands/setLogChannel.js: Slash commands
+
+.env: bot credentials
+
+## Installation
+
+1. Download node.js and Visual Studio Code
+2. Clone this repo
+3. In the terminal, run the following commands in order:
+```
+npm init -y
+npm install discord.js
+npm install dotenv
+```
 
 
 ## SETUP
@@ -31,3 +45,4 @@ commands/setLogChannel.js: Slash commands
 2. Change the DISCORD_TOKEN (bot token) and CLIENT_ID (bot id) values in .env
 
 3. Run index.js to start the bot.
+   - If you see `Error: self-signed certificate in certificate chain`, it means your wifi is blocking discord connections
