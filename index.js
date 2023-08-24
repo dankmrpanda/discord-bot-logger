@@ -136,6 +136,7 @@ client.on('messageDelete', message => {
 updatemes = true;
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (newMessage.author.bot) return;
+    if (newMessage.content === oldMessage.content && newMessage.attachments.size === oldMessage.attachments.size) return;
     if (!updatemes && (oldMessage.content == newMessage.content)) //fixes the double message update when deleting images
     {
         updatemes = true;
