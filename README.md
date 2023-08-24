@@ -18,7 +18,9 @@ Doesn't Log any bot actions <br />
 
 index.js: Main file
 commands/setLogChannel.js: Slash commands <br />
-
+<br />
+<br />
+<br />
 
 ****SETUP****
 
