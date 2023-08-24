@@ -24,6 +24,14 @@ commands/setLogChannel.js: Slash commands
 
 .env: bot credentials
 
+ids.txt: stores each server's information
+```
+Server name
+Server id
+Server Log channel id
+<empty line>
+```
+
 ## Installation
 
 1. Download node.js and Visual Studio Code
