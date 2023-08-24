@@ -35,9 +35,11 @@ npm install discord.js
 npm install dotenv
 ```
 
+## Invite Link
+
+[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=1143047164520583188&permissions=8&scope=bot)
 
 ## SETUP
-
 1. If it's your first time running this, make sure to do `node commands/setLogChannel.js`.
 
    - This will update/register the slash commands
