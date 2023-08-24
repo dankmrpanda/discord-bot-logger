@@ -52,9 +52,15 @@ npm install dotenv
 
    - This will update/register the slash commands
 
-2. Change the DISCORD_TOKEN (bot token) and CLIENT_ID (bot id) values in .env
+2. Create files named `.env` and `ids.txt`
+3. Add the following to `.env`
+   - Make sure the replace the values for the variables
+```
+DISCORD_TOKEN = "BOT TOKEN"
+CLIENT_ID = "BOT ID"
+```
 
-3. Run index.js to start the bot.
+4. Run index.js to start the bot.
    - If you see `Error: self-signed certificate in certificate chain`, it means your wifi is blocking discord connections
 
 ### TODO
