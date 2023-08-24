@@ -3,9 +3,12 @@ logs msg deletes
 logs msg edit
 logs msg image deletes (can be multiple images)
 works for multiple servers
+/logs: tells you the current log channel
+/log-channel <channel>: changes current log channel 
+saves the log channel for each server in the txt file
+doesnt log any bot actions
 TODO:
-make slash command set log channel
-save log channel and guild ids into txt file
+find a todo
 */
 
 /*
