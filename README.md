@@ -24,6 +24,14 @@ commands/setLogChannel.js: Slash commands
 
 .env: bot credentials
 
+ids.txt: stores each server's information
+```
+Server name
+Server id
+Server Log channel id
+<empty line>
+```
+
 ## Installation
 
 1. Download node.js and Visual Studio Code
@@ -48,3 +56,7 @@ npm install dotenv
 
 3. Run index.js to start the bot.
    - If you see `Error: self-signed certificate in certificate chain`, it means your wifi is blocking discord connections
+
+### TODO
+
+1. find a todo
