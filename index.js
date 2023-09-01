@@ -151,7 +151,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
         if (channel)
         {
             const embed = new EmbedBuilder()
-            embed.setTitle('msg edit')
+            embed.setTitle('Message Edited')
             if (oldMessage.attachments.size !== 0 && newMessage.attachments.size == 0) //if only one image del
             {
                 embed.addFields(
@@ -166,6 +166,15 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 embed.addFields(
                     { name: 'changes', value: "image was removed" },
                 )
+                // newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
+                //     let attachments = neww;
+                //     if (oldMessage.attachments.indexOf(neww) === -1)
+                //     {
+                //         console.log("old msg attached");
+                //         embed.setImage(attachments.url)
+                //         return;
+                //     }
+                // });
                 newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
                     let checker = true;
                     let attachments = neww;
