@@ -1,4 +1,4 @@
-# discord-bot-logger
+# Discord Bot Logger
 
 ## Features:
 
