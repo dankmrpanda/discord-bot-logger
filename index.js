@@ -41,29 +41,26 @@ const client = new Client({
 	],
 }, {GatewayIntentBits});
 
-client.on('ready', (c) => {
+client.on('ready', (c) => { //REFACTOR
     // fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
-    var setLog;
+    
     var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
-        var exists = false;
+        // var exists = false;
+        var setLog = guild.systemChannelId;
+        var setTxt = guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n";
         for (let i = 0; i < array.length; i++)
         {
             
             if(guild.id == array[i]){
                 setLog = array[i + 1];
-                exists = true;
+                setTxt = "";
+                // exists = true;
                 break;
             }
         }
-        if (!exists) {
-            fs.appendFile('ids.txt', guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n" , (err) => {if (err) throw err;});
-            servers[guild.id] = guild.systemChannelId;
-        }
-        else {
-            servers[guild.id] = setLog;
-        }
-        
+        fs.appendFile('ids.txt', setTxt, (err) => {if (err) throw err;});
+        servers[guild.id] = setLog; 
     })
     console.log("bot online");
 })
