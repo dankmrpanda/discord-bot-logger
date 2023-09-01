@@ -128,7 +128,7 @@ client.on('messageDelete', message => {
             //     }
             // }
             // sends();
-            channel.send({embeds: [embed]}, {files: file});
+            channel.send({embeds: [embed], files: file});
         }
     }
 })
