@@ -99,7 +99,7 @@ client.on('messageDelete', message => {
         if (channel)
         {
             const embed = new EmbedBuilder() // create embed
-            embed.setTitle('msg delete')
+            embed.setTitle('Message Deleted')
             embed.addFields(    
                 { name: 'user', value: `${message.author}` },
                 { name: 'channel', value: `${message.channel}` },
@@ -121,13 +121,14 @@ client.on('messageDelete', message => {
                 //console.log(`${attachments.url}`);
                 // embed.setImage(attachments.url)
             }
-            async function sends() {
-                await channel.send({embeds: [embed]});
-                if (attac){
-                    await channel.send({files: file});
-                }
-            }
-            sends();
+            // async function sends() {
+            //     await channel.send({embeds: [embed]});
+            //     if (attac){
+            //         await channel.send({files: file});
+            //     }
+            // }
+            // sends();
+            channel.send({embeds: [embed]}, {files: file});
         }
     }
 })
