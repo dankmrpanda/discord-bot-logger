@@ -46,7 +46,6 @@ client.on('ready', (c) => { //REFACTOR
     
     var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
-        // var exists = false;
         var setLog = guild.systemChannelId;
         var setTxt = guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n";
         for (let i = 0; i < array.length; i++)
@@ -55,7 +54,6 @@ client.on('ready', (c) => { //REFACTOR
             if(guild.id == array[i]){
                 setLog = array[i + 1];
                 setTxt = "";
-                // exists = true;
                 break;
             }
         }
@@ -67,14 +65,16 @@ client.on('ready', (c) => { //REFACTOR
 
 //joined a server
 client.on("guildCreate", guild => {
+    var setTxt = guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n";
+    var setLog = guild.systemChannelId;
+    fs.appendFile('ids.txt', setTxt, (err) => {if (err) throw err;});
+    servers[guild.id] = setLog;
     console.log("Joined a new guild: " + guild.name);
-    fs.appendFile('ids.txt', guild.name+"\n"+guild.id+"\n"+guild.systemChannelId, (err) => {if (err) throw err;});
-    servers[guild.id] = guild.systemChannelId;
 })
 
 //removed from a server
 client.on("guildDelete", guild => {
-    console.log("Left a guild: " + guild.name)
+    
     fs.readFile('ids.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
@@ -83,7 +83,7 @@ client.on("guildDelete", guild => {
         const stringa = array.join('\n');
         fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
     });
-    delete server[guild.id];    
+    console.log("Left a guild: " + guild.name)
 })
 
 
