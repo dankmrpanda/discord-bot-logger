@@ -88,7 +88,7 @@ client.on("guildDelete", guild => {
 
 
 //message delete logger
-client.on('messageDelete', message => {
+client.on('messageDelete', async(message) => {
     var file = [];
     var attac = false;
     var chan = servers[message.guild.id];
@@ -128,20 +128,14 @@ client.on('messageDelete', message => {
             //     }
             // }
             // sends();
-            channel.send({embeds: [embed], files: file});
+            await channel.send({embeds: [embed], files: file});
         }
     }
 })
 
-updatemes = true;
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (newMessage.author.bot) return;
     if (newMessage.content === oldMessage.content && newMessage.attachments.size === oldMessage.attachments.size) return;
-    if (!updatemes && (oldMessage.content == newMessage.content)) //fixes the double message update when deleting images
-    {
-        updatemes = true;
-        return;
-    }
     var chan = servers[oldMessage.guild.id];
     console.log("msg edit");
     console.log(oldMessage.attachments.size);
@@ -155,47 +149,49 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             if (oldMessage.attachments.size !== 0 && newMessage.attachments.size == 0) //if only one image del
             {
                 embed.addFields(
-                    { name: 'changes', value: "image was removed" },
+                    { name: 'Changes', value: "Image was removed" },
                 )
                 let attachments = oldMessage.attachments.first();
                 embed.setImage(attachments.url)
                 console.log("one image attached");
-                updatemes = false;
             }
             else if (oldMessage.attachments.size > newMessage.attachments.size) { //if there are more than one images
                 embed.addFields(
                     { name: 'changes', value: "image was removed" },
                 )
+                oldMessage.attachments.forEach((old) => { 
+                    var found = false;
+                    // console.log("image gone lmao");
+                    // console.log(newMessage.attachments.find(({id}) => id == old.id));
+                    if (newMessage.attachments.find(({id}) => id == old.id) === undefined)
+                    {
+                        console.log("old msg attached");
+                        embed.setImage(old.url)
+                        found = true;
+                    }
+                    if (found) return;
+                });
                 // newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
+                //     let checker = true;
                 //     let attachments = neww;
-                //     if (oldMessage.attachments.indexOf(neww) === -1)
+                //     oldMessage.attachments.forEach((old) => {
+                //         if (neww == old) //if image is not deleted then no point in continue
+                //         {
+                //             checker == false;
+                //             return;
+                //         }
+                //         else {
+                //             attachments = old;
+                //         }
+                //     });
+                //     if (checker) //if image is found deleted then add to embed
                 //     {
                 //         console.log("old msg attached");
                 //         embed.setImage(attachments.url)
                 //         return;
                 //     }
                 // });
-                newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
-                    let checker = true;
-                    let attachments = neww;
-                    oldMessage.attachments.forEach((old) => {
-                        if (neww == old) //if image is not deleted then no point in continue
-                        {
-                            checker == false;
-                            return;
-                        }
-                        else {
-                            attachments = old;
-                        }
-                    });
-                    if (checker) //if image is found deleted then add to embed
-                    {
-                        console.log("old msg attached");
-                        embed.setImage(attachments.url)
-                        return;
-                    }
-                });
-                updatemes = false;
+                
             }
 
             else { //only text update
