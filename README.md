@@ -4,7 +4,8 @@
 
 __Logs:__
 - Message Deletes
-- Edits, Deleted images from a message
+- Message Edits
+- Deleted images (from message)
 
 Saves log channel for each server
 
