@@ -7,7 +7,7 @@ Discord: dankmrpanda
 
 const fs = require('fs');
 require('dotenv').config();
-const {Client, GatewayIntentBits, Routes, EmbedBuilder} = require('discord.js');
+const {Client, GatewayIntentBits, EmbedBuilder} = require('discord.js');
 
 
 
@@ -68,7 +68,7 @@ client.on("guildDelete", guild => {
 //message delete logger
 client.on('messageDelete', async(message) => {
     var file = [];
-    var attac = false;
+    // var attac = false;
     var chan = servers[message.guild.id];
     console.log("bot del");
     if (message.author.bot) return;
@@ -102,7 +102,7 @@ client.on('messageDelete', async(message) => {
                 message.attachments.forEach((msg) => { 
                     file.push(msg.url)
                 });
-                attac = true;
+                // attac = true;
                 // let attachments = message.attachments.first();
 
                 //console.log(`${attachments.url}`);
