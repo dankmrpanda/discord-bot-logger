@@ -108,6 +108,15 @@ client.on('messageDelete', async(message) => {
             if (message.content != "") //makes sure message isnt empty, often goes with image
             {
                 embed.setDescription(message.content)
+                if (message.reference != null )
+                {
+                    let referenceMessage = message.channel.messages.cache.get(message.reference.messageId);
+                    embed.addFields(    
+                        { name: 'replied to', value: `${referenceMessage.author}` },
+                        { name: 'reply link', value: `${referenceMessage.url}` },
+                        { name: 'reply message', value: `${referenceMessage.content}` },
+                    )
+                }
             }
             if (message.attachments.size !== 0 ) { //checks for image and logs it
                 console.log("image del");
