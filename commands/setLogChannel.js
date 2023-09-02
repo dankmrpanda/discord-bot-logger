@@ -21,7 +21,6 @@ const commands = [
       },
     ],
     default_member_permissions: PermissionFlagsBits.Administrator.toString(),
-    
   },
   {
     name: 'logs',

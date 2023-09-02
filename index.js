@@ -4,31 +4,27 @@ Copyright © 2023 Raymond Jiang. All rights reserved.
 Discord: dankmrpanda
 */
 
-
 const fs = require('fs');
 require('dotenv').config();
 const {Client, GatewayIntentBits, EmbedBuilder} = require('discord.js');
-
-
+const client = new Client(
+    {
+        intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
+        ],
+    },  {GatewayIntentBits});
 
 var servers = {}
 
-const client = new Client({
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
-	],
-}, {GatewayIntentBits});
-
-client.on('ready', (c) => {    
+client.on('ready', (c) => {
     var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
         var setLog = guild.systemChannelId;
         var setTxt = guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n";
         for (let i = 0; i < array.length; i++)
         {
-            
             if(guild.id == array[i]){
                 setLog = array[i + 1];
                 setTxt = "";
@@ -52,7 +48,6 @@ client.on("guildCreate", guild => {
 
 //removed from a server
 client.on("guildDelete", guild => {
-    
     fs.readFile('ids.txt', function(err, data) {
         if(err) throw err;
         var array = data.toString().split("\n");
@@ -67,11 +62,11 @@ client.on("guildDelete", guild => {
 
 //message delete logger
 client.on('messageDelete', async(message) => {
+    if (message.author.bot) return;
+
     var file = [];
-    // var attac = false;
     var chan = servers[message.guild.id];
     console.log("bot del");
-    if (message.author.bot) return;
     if (!message.partial){ //makes sure message isnt partial
         const channel = client.channels.cache.get(chan) //get channel id of log channel
         if (channel)
@@ -102,19 +97,7 @@ client.on('messageDelete', async(message) => {
                 message.attachments.forEach((msg) => { 
                     file.push(msg.url)
                 });
-                // attac = true;
-                // let attachments = message.attachments.first();
-
-                //console.log(`${attachments.url}`);
-                // embed.setImage(attachments.url)
             }
-            // async function sends() {
-            //     await channel.send({embeds: [embed]});
-            //     if (attac){
-            //         await channel.send({files: file});
-            //     }
-            // }
-            // sends();
             await channel.send({embeds: [embed], files: file});
         }
     }
@@ -149,8 +132,6 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 )
                 oldMessage.attachments.forEach((old) => { 
                     var found = false;
-                    // console.log("image gone lmao");
-                    // console.log(newMessage.attachments.find(({id}) => id == old.id));
                     if (newMessage.attachments.find(({id}) => id == old.id) === undefined)
                     {
                         console.log("old msg attached");
@@ -158,28 +139,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                         found = true;
                     }
                     if (found) return;
-                });
-                // newMessage.attachments.forEach((neww) => { //uses selection sort alg to check for deleted image
-                //     let checker = true;
-                //     let attachments = neww;
-                //     oldMessage.attachments.forEach((old) => {
-                //         if (neww == old) //if image is not deleted then no point in continue
-                //         {
-                //             checker == false;
-                //             return;
-                //         }
-                //         else {
-                //             attachments = old;
-                //         }
-                //     });
-                //     if (checker) //if image is found deleted then add to embed
-                //     {
-                //         console.log("old msg attached");
-                //         embed.setImage(attachments.url)
-                //         return;
-                //     }
-                // });
-                
+                });                
             }
             else { //only text update
                 embed.addFields(
@@ -193,7 +153,6 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 { name: 'user', value: `${newMessage.author}` },
                 { name: 'channel', value: `${newMessage.channel}` }
             )
-            
             embed.setTimestamp();
             channel.send({ embeds: [embed] });
         }
