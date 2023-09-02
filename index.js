@@ -197,8 +197,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             embed.setTimestamp();
             channel.send({ embeds: [embed] });
         }
-    }
-    
+    }  
 })
 
 client.on('interactionCreate', (interaction) => {

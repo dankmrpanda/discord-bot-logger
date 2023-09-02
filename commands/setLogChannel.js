@@ -4,7 +4,7 @@ updates slash cmd
 */
 
 require('dotenv').config();
-const { REST, Routes, ApplicationCommandOptionType, ApplicationCommandPermissionType } = require('discord.js');
+const { REST, Routes, ApplicationCommandOptionType } = require('discord.js');
 
 const commands = [
   {
