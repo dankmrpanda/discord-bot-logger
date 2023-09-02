@@ -18,7 +18,7 @@ Does not log any bot actions
 
 /log-channel <channel>: sets selected channel to log channel
 
-By default, the commands are only accessible to admins of the server. To override this, go [here](https://github.com/dankmrpanda/discord-bot-logger/edit/main/README.md#override-command-permissions)
+By default, the commands are only accessible to admins of the server. To override this, go [here](https://github.com/dankmrpanda/discord-bot-logger/blob/main/README.md#override-command-permissions)
 
 ## Override Command Permissions
 
