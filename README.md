@@ -2,7 +2,10 @@
 
 ## Features:
 
-Logs: Message Deletes, Edits, Deleted images from a message
+__Logs:__
+- Message Deletes
+- Message Edits
+- Deleted images (from message)
 
 Saves log channel for each server
 
