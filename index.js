@@ -4,6 +4,7 @@ Copyright © 2023 Raymond Jiang. All rights reserved.
 Discord: dankmrpanda
 */
 
+//all the libaries
 const fs = require('fs');
 require('dotenv').config();
 const {Client, GatewayIntentBits, EmbedBuilder} = require('discord.js');
@@ -16,16 +17,30 @@ const client = new Client(
         ],
     },  {GatewayIntentBits});
 
+//global variables
 var servers = {}
 
+//when bot is on
 client.on('ready', (c) => {
+    /*
+    is server in ids.txt?
+        yes
+            - add nothing to the file ("")
+            - get the log channel id from ids.txt
+            - add server id and log channel id to servers dictionary
+        no
+            - add server name, id, and default channel id to ids.txt
+            - add server id and default channel id to servers dictionary
+    */
+
     var array = fs.readFileSync('ids.txt').toString().split("\n");
-    (client.guilds.cache).forEach((guild) => {
+    (client.guilds.cache).forEach((guild) => { //checks each server the bot is in
         var setLog = guild.systemChannelId;
         var setTxt = guild.name + "\n" + guild.id + "\n" + guild.systemChannelId + "\n\n";
-        for (let i = 0; i < array.length; i++)
+        for (let i = 0; i < array.length; i++) 
         {
-            if(guild.id == array[i]){
+            if(guild.id == array[i]) //checks if the server is already in ids.txt
+            {
                 setLog = array[i + 1];
                 setTxt = "";
                 break;
