@@ -21,9 +21,7 @@ const client = new Client({
 	],
 }, {GatewayIntentBits});
 
-client.on('ready', (c) => { //REFACTOR
-    // fs.writeFile('ids.txt', "" , (err) => {if (err) throw err;});
-    
+client.on('ready', (c) => {    
     var array = fs.readFileSync('ids.txt').toString().split("\n");
     (client.guilds.cache).forEach((guild) => {
         var setLog = guild.systemChannelId;
@@ -125,6 +123,7 @@ client.on('messageDelete', async(message) => {
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (newMessage.author.bot) return;
     if (newMessage.content === oldMessage.content && newMessage.attachments.size === oldMessage.attachments.size) return;
+    
     var chan = servers[oldMessage.guild.id];
     console.log("msg edit");
     console.log(oldMessage.attachments.size);
@@ -182,7 +181,6 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 // });
                 
             }
-
             else { //only text update
                 embed.addFields(
                     { name: 'old', value: `${oldMessage.content}` },
@@ -207,32 +205,24 @@ client.on('interactionCreate', (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     
     if (interaction.commandName === 'log-channel') {  
-        //if ((interaction.member.permissions.has(0))){
-            const channel = interaction.options.get('channel').value;
-            interaction.reply(`The log channel is updated to ${client.channels.cache.get(channel)}`);
-            fs.readFile('ids.txt', function(err, data) {
-                if(err) throw err;
-                var array = data.toString().split("\n");
-                array[array.indexOf(interaction.guildId) + 1] = channel;
-                const stringa = array.join('\n');
-                servers[interaction.guildId] =  channel;
-                fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
-            });
-            console.log("Log Channel Updated to " + client.channels.cache.get(channel));
-        //}
-        // else {
-        //     interaction.reply(`no rights`);
-        // }
+        const channel = interaction.options.get('channel').value;
+        interaction.reply(`The log channel is updated to ${client.channels.cache.get(channel)}`);
+        fs.readFile('ids.txt', function(err, data) {
+            if(err) throw err;
+            var array = data.toString().split("\n");
+            array[array.indexOf(interaction.guildId) + 1] = channel;
+            const stringa = array.join('\n');
+            servers[interaction.guildId] =  channel;
+            fs.writeFile('ids.txt', stringa , (err) => {if (err) throw err;});
+        });
+        console.log("Log Channel Updated to " + client.channels.cache.get(channel));
     }
-
     if (interaction.commandName === 'logs') {
         console.log("called logs cmd");
         const channel = servers[interaction.guildId];
         console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
-    
 });
-
 
 client.login(process.env.DISCORD_TOKEN)
