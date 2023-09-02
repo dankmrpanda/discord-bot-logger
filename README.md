@@ -12,12 +12,36 @@ Saves log channel for each server
 Does not log any bot actions
 
 
-## Slash Commands
+## Slash Commands (only to admins)
 
 /logs: displays current log channel
 
 /log-channel <channel>: sets selected channel to log channel
 
+By default, the commands are only accessible to admins of the server. To override this, go [here](https://github.com/dankmrpanda/discord-bot-logger/edit/main/README.md#override-command-permissions)
+
+## Override Command Permissions
+
+1. Go to Server Settings > Integrations and click the bot
+
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/c6b40de4-e03d-4bf3-9591-9e82f7ba9c35)
+
+2. Find the commands section
+
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/abe74d6a-f5c0-44a3-a7a1-4e70506ec381)
+
+3. Click on each command and set overrides for them 
+
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/1ccd64c3-2281-43f0-b6bd-f270be99b936)
+
+4. Save your overrides
+
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/556a12ff-c9f3-4214-bcfa-70902d5aff1b)
+
+
+5. After your done, it should have a blue icon indicating you have overrides on
+
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/b799f302-e10b-4ca6-94e0-9db91363147b)
 
 ## Files
 
