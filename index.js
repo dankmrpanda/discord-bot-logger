@@ -1,23 +1,9 @@
 /*
-logs msg deletes
-logs msg edit
-logs msg image deletes (can be multiple images)
-works for multiple servers
-/logs: tells you the current log channel
-/log-channel <channel>: changes current log channel 
-saves the log channel for each server in the txt file
-doesnt log any bot actions
-TODO:
-find a todo
+Created by Raymond Jiang in August 2023.
+Copyright © 2023 Raymond Jiang. All rights reserved.
+Discord: dankmrpanda
 */
 
-/*
-npm init -y
-npm install discord.js
-npm install dotenv
-if theres a certification error, it means your wifi is blocking something, use hotspot
-(school wifi)
-*/
 
 const fs = require('fs');
 require('dotenv').config();
@@ -26,12 +12,6 @@ const {Client, GatewayIntentBits, Routes, EmbedBuilder} = require('discord.js');
 
 
 var servers = {}
-// servers = {
-//     "1009306799377235980":"1141225224910667828", //mrs. zheng's empire
-//     "774391468646989866":"805287348434239489", //fish lake
-//     "1141594003859574905":"1141594026064224396", //etgs (test server 1)
-//     "1141619892353773638":"1141619939678109726" //ff (test server 2)
-// }
 
 const client = new Client({
 	intents: [
