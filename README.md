@@ -9,7 +9,7 @@ __Logs:__
 
 Saves log channel for each server
 
-Does not log any bot actions
+Other bots are ignored
 
 
 ## Slash Commands (only to admins)
