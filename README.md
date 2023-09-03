@@ -28,7 +28,7 @@ By default, the commands are only accessible to admins of the server. To overrid
 
 2. Find the commands section
 
-![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/abe74d6a-f5c0-44a3-a7a1-4e70506ec381)
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/6a74ad1b-f5ef-4f98-bc47-c680f9ab9e30)
 
 3. Click on each command and set overrides for them 
 
