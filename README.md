@@ -76,19 +76,12 @@ npm install dotenv
 
 ## SETUP
 
-1. Create files named `.env` and `ids.txt`
+1. Change the `DISCORD_TOKEN` and `CLIENT_ID` values in  `.env`
 
-2. Add the following to `.env`
-   - Make sure the replace the values for the variables
-```
-DISCORD_TOKEN = "BOT TOKEN"
-CLIENT_ID = "BOT ID"
-```
-
-3. If it's your first time running this, make sure to do `node commands/setLogChannel.js` (in VSC terminal).
+2. If it's your first time running this, make sure to do `node commands/setLogChannel.js` (in VSC terminal).
    - This will update/register the slash commands
    
-4. Run index.js to start the bot.
+3. Run index.js to start the bot.
    - `node index.js`
    - If you see `Error: self-signed certificate in certificate chain`, it means your WiFi blocks discord connections
    #### Solutions:
