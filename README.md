@@ -9,7 +9,7 @@ __Logs:__
 
 Saves log channel for each server
 
-Does not log any bot actions
+Other bots are ignored
 
 
 ## Slash Commands (only to admins)
@@ -28,7 +28,7 @@ By default, the commands are only accessible to admins of the server. To overrid
 
 2. Find the commands section
 
-![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/abe74d6a-f5c0-44a3-a7a1-4e70506ec381)
+![image](https://github.com/dankmrpanda/discord-bot-logger/assets/102562350/6a74ad1b-f5ef-4f98-bc47-c680f9ab9e30)
 
 3. Click on each command and set overrides for them 
 
@@ -76,19 +76,12 @@ npm install dotenv
 
 ## SETUP
 
-1. Create files named `.env` and `ids.txt`
+1. Change the `DISCORD_TOKEN` and `CLIENT_ID` values in  `.env`
 
-2. Add the following to `.env`
-   - Make sure the replace the values for the variables
-```
-DISCORD_TOKEN = "BOT TOKEN"
-CLIENT_ID = "BOT ID"
-```
-
-3. If it's your first time running this, make sure to do `node commands/setLogChannel.js` (in VSC terminal).
+2. If it's your first time running this, make sure to do `node commands/setLogChannel.js` (in VSC terminal).
    - This will update/register the slash commands
    
-4. Run index.js to start the bot.
+3. Run index.js to start the bot.
    - `node index.js`
    - If you see `Error: self-signed certificate in certificate chain`, it means your WiFi blocks discord connections
    #### Solutions:
