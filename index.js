@@ -166,7 +166,6 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             embed.addFields(
                 { name: 'message link', value: `${newMessage.url}` },
                 { name: 'user', value: `${newMessage.author}` },
-                { name: 'channel', value: `${newMessage.channel}` }
             )
             embed.setTimestamp();
             channel.send({ embeds: [embed] });
