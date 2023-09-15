@@ -20,12 +20,12 @@ const commands = [
         
       },
     ],
-    default_member_permissions: PermissionFlagsBits.Administrator.toString(),
+    default_member_permissions: PermissionFlagsBits.ManageMessages.toString(),
   },
   {
     name: 'logs',
     description: 'Replies with current log channel',
-    default_member_permissions: PermissionFlagsBits.Administrator.toString(),
+    default_member_permissions: PermissionFlagsBits.ManageMessages.toString(),
   },
 ];
 
