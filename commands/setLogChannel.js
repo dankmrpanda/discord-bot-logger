@@ -27,6 +27,10 @@ const commands = [
     description: 'Replies with current log channel',
     default_member_permissions: PermissionFlagsBits.ManageMessages.toString(),
   },
+  {
+    name: 'ban',
+    description: 'bans alan',
+  },
 ];
 
 

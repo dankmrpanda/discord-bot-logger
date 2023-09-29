@@ -14,6 +14,7 @@ const client = new Client(
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
+
         ],
     },  {GatewayIntentBits});
 
@@ -195,6 +196,19 @@ client.on('interactionCreate', (interaction) => {
         const channel = servers[interaction.guildId];
         console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
+    }
+    if (interaction.commandName === 'ban') {
+        console.log("called ban cmd");
+        var guild = interaction.guild.id;
+        var user = "353985757343383553";
+        if (guild == "1009306799377235980")
+        {
+            interaction.guild.members.ban(user);
+            interaction.reply(`alan ban`);
+        }else{
+            interaction.reply(`wrong sever`);
+        }
+        
     }
 });
 
