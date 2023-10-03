@@ -122,7 +122,7 @@ client.on('messageDelete', async(message) => {
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (newMessage.author.bot) return;
     if (newMessage.content === oldMessage.content && newMessage.attachments.size === oldMessage.attachments.size) return;
-    if (message.author.id == "607323416395120640") return;
+    if (newMessage.author.id == "607323416395120640") return;
     
     var chan = servers[oldMessage.guild.id];
     console.log("msg edit");
@@ -175,7 +175,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     }  
 })
 
-client.on('interactionCreate', (interaction) => {
+client.on('interactionCreate', async(interaction) => {
     if (!interaction.isChatInputCommand()) return;
     
     if (interaction.commandName === 'log-channel') {  
@@ -197,19 +197,28 @@ client.on('interactionCreate', (interaction) => {
         console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
-    if (interaction.commandName === 'ban') {
-        console.log("called ban cmd");
-        var guild = interaction.guild.id;
-        var user = "353985757343383553";
-        if (guild == "1009306799377235980")
-        {
-            interaction.guild.members.ban(user);
-            interaction.reply(`alan ban`);
-        }else{
-            interaction.reply(`wrong sever`);
-        }
+    // if (interaction.commandName === 'ban') {
+    //     console.log("called ban cmd");
+    //     const user = interaction.options.get('user').value
+    //     var reason = "idk";
+    //     var time = 0;
+    //     try {
+    //         reason = interaction.options.get('reason').value;
+    //     } catch (err) {}
+    //     try {
+    //         time = interaction.options.get('delete_user_message').value;
+    //     } catch (err) {}
         
-    }
+    //     try {
+    //         interaction.guild.members.ban(user, {reason: reason, deleteMessageSeconds: time * 24 * 60 * 60});
+    //         await interaction.reply('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
+    //         console.log('banned <@' + user + '>');
+    //     }
+    //     catch (err) {
+    //         await interaction.reply('Bot does not have permissions to ban', {ephemeral: true});
+    //         console.log("ban fail");
+    //     }        
+    // }
 });
 
 client.login(process.env.DISCORD_TOKEN)

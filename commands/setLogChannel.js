@@ -17,7 +17,6 @@ const commands = [
         type: ApplicationCommandOptionType.Channel,
         channel_types: [0],
         required: true,
-        
       },
     ],
     default_member_permissions: PermissionFlagsBits.ManageMessages.toString(),
@@ -29,7 +28,44 @@ const commands = [
   },
   {
     name: 'ban',
-    description: 'bans alan',
+    description: 'bans user specified',
+    options: [
+      {
+        name: 'user',
+        description: 'user that is being banned',
+        type: ApplicationCommandOptionType.User,
+        require: true,
+      },
+      {
+        name: 'reason',
+        description: 'reason of the ban',
+        type: ApplicationCommandOptionType.String,
+      },
+      {
+        name: 'delete_user_message',
+        description: 'how many days ago do messages get deleted',
+        type: ApplicationCommandOptionType.Integer,
+      }
+    ],
+    default_member_permissions: PermissionFlagsBits.BanMembers.toString(),
+  },
+  {
+    name: 'kick',
+    description: 'kicks user specified',
+    options: [
+      {
+        name: 'user',
+        description: 'user that is being kicked',
+        type: ApplicationCommandOptionType.User,
+        require: true,
+      },
+      {
+        name: 'reason',
+        description: 'reason of the kick',
+        type: ApplicationCommandOptionType.String,
+      }
+    ],
+    default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
   },
 ];
 
