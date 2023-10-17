@@ -197,28 +197,33 @@ client.on('interactionCreate', async(interaction) => {
         console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
-    // if (interaction.commandName === 'ban') {
-    //     console.log("called ban cmd");
-    //     const user = interaction.options.get('user').value
-    //     var reason = "idk";
-    //     var time = 0;
-    //     try {
-    //         reason = interaction.options.get('reason').value;
-    //     } catch (err) {}
-    //     try {
-    //         time = interaction.options.get('delete_user_message').value;
-    //     } catch (err) {}
-        
-    //     try {
-    //         interaction.guild.members.ban(user, {reason: reason, deleteMessageSeconds: time * 24 * 60 * 60});
-    //         await interaction.reply('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
-    //         console.log('banned <@' + user + '>');
-    //     }
-    //     catch (err) {
-    //         await interaction.reply('Bot does not have permissions to ban', {ephemeral: true});
-    //         console.log("ban fail");
-    //     }        
-    // }
+    if (interaction.commandName === 'ban') {
+        console.log("called ban cmd");
+        console.log(interaction.user.id);
+        if (!process.env.EXCEPT.includes(interaction.user.id)) return;
+        if (interaction.guildId != "1009306799377235980") return;
+        const user = interaction.options.get('user').value
+        var reason = "idk";
+        var time = 0;
+        try {
+            reason = interaction.options.get('reason').value;
+        } catch (err) {}
+        try {
+            time = interaction.options.get('delete_user_message').value;
+        } catch (err) {}
+        try {
+            interaction.guild.members.ban(user, {reason: reason, deleteMessageSeconds: time * 24 * 60 * 60});
+            interaction.user.send('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
+            //await interaction.reply('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
+            // interaction.guild.members.unban(user, {reason: reason});
+            console.log('banned <@' + user + '>');
+        }
+        catch (err) {
+            interaction.user.send('Bot does not have permissions to ban', {ephemeral: true});
+            //await interaction.reply('Bot does not have permissions to ban', {ephemeral: true});
+            console.log("ban fail");
+        }
+    }
 });
 
 client.login(process.env.DISCORD_TOKEN)

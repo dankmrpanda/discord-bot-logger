@@ -47,26 +47,26 @@ const commands = [
         type: ApplicationCommandOptionType.Integer,
       }
     ],
-    default_member_permissions: PermissionFlagsBits.BanMembers.toString(),
+    //default_member_permissions: PermissionFlagsBits.BanMembers.toString(),
   },
-  {
-    name: 'kick',
-    description: 'kicks user specified',
-    options: [
-      {
-        name: 'user',
-        description: 'user that is being kicked',
-        type: ApplicationCommandOptionType.User,
-        require: true,
-      },
-      {
-        name: 'reason',
-        description: 'reason of the kick',
-        type: ApplicationCommandOptionType.String,
-      }
-    ],
-    default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
-  },
+  // {
+  //   name: 'kick',
+  //   description: 'kicks user specified',
+  //   options: [
+  //     {
+  //       name: 'user',
+  //       description: 'user that is being kicked',
+  //       type: ApplicationCommandOptionType.User,
+  //       require: true,
+  //     },
+  //     {
+  //       name: 'reason',
+  //       description: 'reason of the kick',
+  //       type: ApplicationCommandOptionType.String,
+  //     }
+  //   ],
+  //   //default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
+  // },
 ];
 
 
