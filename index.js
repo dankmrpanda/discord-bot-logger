@@ -197,11 +197,13 @@ client.on('interactionCreate', async(interaction) => {
         console.log(channel);
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
+
+    
+    if (!process.env.EXCEPT.includes(interaction.user.id)) return;
+    if (interaction.guildId != "1009306799377235980") return;
     if (interaction.commandName === 'ban') {
         console.log("called ban cmd");
         console.log(interaction.user.id);
-        if (!process.env.EXCEPT.includes(interaction.user.id)) return;
-        if (interaction.guildId != "1009306799377235980") return;
         const user = interaction.options.get('user').value
         var reason = "idk";
         var time = 0;
