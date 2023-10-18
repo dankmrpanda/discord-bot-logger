@@ -198,18 +198,20 @@ client.on('interactionCreate', async(interaction) => {
         interaction.reply(`The current log channel is ${client.channels.cache.get(channel)}`);
     }
 
-    
+    // anything past here only works in zheng empire and if they are included in the env var
     if (!process.env.EXCEPT.includes(interaction.user.id)) return;
-    if (interaction.guildId != "1009306799377235980") return;
+    if (!process.env.ENABLE.includes(interaction.guildId)) return;
+
+    const user = interaction.options.get('user');
+    var reason = "idk";
+    try {
+        reason = interaction.options.get('reason').value;
+    } catch (err) {}
+
     if (interaction.commandName === 'ban') {
         console.log("called ban cmd");
         console.log(interaction.user.id);
-        const user = interaction.options.get('user').value
-        var reason = "idk";
         var time = 0;
-        try {
-            reason = interaction.options.get('reason').value;
-        } catch (err) {}
         try {
             time = interaction.options.get('delete_user_message').value;
         } catch (err) {}
@@ -226,6 +228,65 @@ client.on('interactionCreate', async(interaction) => {
             console.log("ban fail");
         }
     }
+    if (interaction.commandName === 'kick') {
+        console.log("called kick cmd");
+        console.log(interaction.user.id);
+        try {
+            interaction.guild.members.kick(user, {reason: reason});
+            interaction.user.send('User: <@' + user + '> has been kicked because: ' + reason, {ephemeral: true});
+            //await interaction.reply('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
+            console.log('kicked <@' + user + '>');
+        }
+        catch (err) {
+            interaction.user.send('Bot does not have permissions to kick', {ephemeral: true});
+            //await interaction.reply('Bot does not have permissions to ban', {ephemeral: true});
+            console.log("kick fail");
+        }
+    }
+
+    if (interaction.commandName === 'unban') {
+        console.log("called unban cmd");
+        console.log(interaction.user.id);
+        try {
+            interaction.guild.members.unban(user, {reason: reason});
+            interaction.user.send('User: <@' + user + '> has been unbanned because: ' + reason, {ephemeral: true});
+            //await interaction.reply('User: <@' + user + '> has been banned because: ' + reason, {ephemeral: true});
+            console.log('unbanned <@' + user + '>');
+        }
+        catch (err) {
+            interaction.user.send('Bot does not have permissions to unban', {ephemeral: true});
+            //await interaction.reply('Bot does not have permissions to ban', {ephemeral: true});
+            console.log("unban fail");
+        }
+    }
+    
+    if (interaction.commandName === 'timeout') {
+        console.log("called unban cmd");
+        console.log(interaction.user.id);
+        const days = interaction.options.get('days').value;
+        const hours = interaction.options.get('hours').value;
+        const minutes = interaction.options.get('minutes').value;
+        const seconds = interaction.options.get('seconds').value;
+        const time = (seconds * 1000) + (minutes * 60 * 1000) + (hours * 60 * 60 * 1000) + (days * 24 * 60 * 60 * 1000);
+
+        try {
+            user.member.timeout(time, {reason: reason});
+            interaction.user.send('User: ' + user.user.displayName+ 'f has been timeout for ' +
+                                days + ' days ' +
+                                hours + ' hours ' +
+                                minutes + ' minutes ' +
+                                seconds + ' seconds ' +
+                                'because: ' + reason, {ephemeral: true});
+            //await interaction.reply('User: <@' + user + '> has been timeout because: ' + reason, {ephemeral: true});
+            console.log('timeout ' + user.user.displayName);
+        }
+        catch (err) {
+            interaction.user.send('Bot does not have permissions to timeout', {ephemeral: true});
+            //await interaction.reply('Bot does not have permissions to timeout', {ephemeral: true});
+            console.log("timeout fail");
+        }
+    }
+
 });
 
 client.login(process.env.DISCORD_TOKEN)

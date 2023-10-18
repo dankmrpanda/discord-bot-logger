@@ -49,24 +49,84 @@ const commands = [
     ],
     //default_member_permissions: PermissionFlagsBits.BanMembers.toString(),
   },
-  // {
-  //   name: 'kick',
-  //   description: 'kicks user specified',
-  //   options: [
-  //     {
-  //       name: 'user',
-  //       description: 'user that is being kicked',
-  //       type: ApplicationCommandOptionType.User,
-  //       require: true,
-  //     },
-  //     {
-  //       name: 'reason',
-  //       description: 'reason of the kick',
-  //       type: ApplicationCommandOptionType.String,
-  //     }
-  //   ],
+  {
+    name: 'kick',
+    description: 'kicks user specified',
+    options: [
+      {
+        name: 'user',
+        description: 'user that is being kicked',
+        type: ApplicationCommandOptionType.User,
+        require: true,
+      },
+      {
+        name: 'reason',
+        description: 'reason of the kick',
+        type: ApplicationCommandOptionType.String,
+      }
+    ],
   //   //default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
-  // },
+  },
+  {
+    name: 'unban',
+    description: 'unbans user specified',
+    options: [
+      {
+        name: 'user',
+        description: 'user that is being unbanned',
+        type: ApplicationCommandOptionType.User,
+        require: true,
+      },
+      {
+        name: 'reason',
+        description: 'reason of the unban',
+        type: ApplicationCommandOptionType.String,
+      }
+    ],
+  //   //default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
+  },
+  {
+    name: 'timeout',
+    description: 'unbans user specified',
+    options: [
+      {
+        name: 'user',
+        description: 'user that is being unbanned',
+        type: ApplicationCommandOptionType.User,
+        require: true,
+      },
+      {
+        name: 'days',
+        description: 'how many days they are timeout',
+        type: ApplicationCommandOptionType.Integer,
+        require: true,
+      },
+      {
+        name: 'hours',
+        description: 'how many hours they are timeout',
+        type: ApplicationCommandOptionType.Integer,
+        require: true,
+      },
+      {
+        name: 'minutes',
+        description: 'how many minutes they are timeout',
+        type: ApplicationCommandOptionType.Integer,
+        require: true,
+      },
+      {
+        name: 'seconds',
+        description: 'how many seconds they are timeout',
+        type: ApplicationCommandOptionType.Integer,
+        require: true,
+      },
+      {
+        name: 'reason',
+        description: 'reason of the unban',
+        type: ApplicationCommandOptionType.String,
+      }
+    ],
+  //   //default_member_permissions: PermissionFlagsBits.KickMembers.toString(),
+  },
 ];
 
 
