@@ -79,8 +79,7 @@ client.on("guildDelete", guild => {
 //message delete logger
 client.on('messageDelete', async(message) => {
     if (message.author.bot) return;
-    if (!process.env.EXCEPT.includes(message.user.id)) return;
-    if (!process.env.ENABLE.includes(message.guildId)) return;
+    if (process.env.EXCEPT.includes(message.author.id)) return;
     var file = [];
     var chan = servers[message.guild.id];
     console.log("bot del");
@@ -123,8 +122,7 @@ client.on('messageDelete', async(message) => {
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (newMessage.author.bot) return;
     if (newMessage.content === oldMessage.content && newMessage.attachments.size === oldMessage.attachments.size) return;
-    if (!process.env.EXCEPT.includes(oldMessage.user.id)) return;
-    if (!process.env.ENABLE.includes(oldMessage.guildId)) return;
+    if (process.env.EXCEPT.includes(oldMessage.author.id)) return;
     
     var chan = servers[oldMessage.guild.id];
     console.log("msg edit");
