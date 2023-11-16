@@ -51,6 +51,7 @@ client.on('ready', (c) => {
         servers[guild.id] = setLog; 
     })
     console.log("bot online");
+    client.user.setPresence({status: "invisible"});
 })
 
 //joined a server
@@ -90,8 +91,8 @@ client.on('messageDelete', async(message) => {
             const embed = new EmbedBuilder() // create embed
             embed.setTitle('Message Deleted')
             embed.addFields(    
-                { name: 'user', value: `${message.author}` },
-                { name: 'channel', value: `${message.channel}` },
+                { name: 'user', value: String(`${message.author}`) },
+                { name: 'channel', value: String(`${message.channel}`) },
             )
             embed.setTimestamp();
             if (message.content != "") //makes sure message isnt empty, often goes with image
@@ -100,10 +101,11 @@ client.on('messageDelete', async(message) => {
                 if (message.reference != null )
                 {
                     let referenceMessage = message.channel.messages.cache.get(message.reference.messageId);
-                    embed.addFields(    
-                        { name: 'replied to', value: `${referenceMessage.author}` },
-                        { name: 'reply link', value: `${referenceMessage.url}` },
-                        { name: 'reply message', value: `${referenceMessage.content}` },
+                    embed.addFields(
+                        { name: 'replied to', value: String(`${referenceMessage.author}`) },
+                        //{ name: 'replied to', value: String(`${null}`) },
+                        { name: 'reply link', value: String(`${referenceMessage.url}`) },
+                        { name: 'reply message', value: String(`${referenceMessage.content}`) },
                     )
                 }
             }
@@ -145,7 +147,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             }
             else if (oldMessage.attachments.size > newMessage.attachments.size) { //if there are more than one images
                 embed.addFields(
-                    { name: 'changes', value: "image was removed" },
+                    { name: 'Changes', value: "Image was removed" },
                 )
                 oldMessage.attachments.forEach((old) => { 
                     var found = false;
@@ -160,14 +162,14 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             }
             else { //only text update
                 embed.addFields(
-                    { name: 'old', value: `${oldMessage.content}` },
-                    { name: 'new', value: `${newMessage.content}` }
+                    { name: 'old', value: String(`${oldMessage.content}`) },
+                    { name: 'new', value: String(`${newMessage.content}`) }
                 )
                 console.log("text was updated")
             }
             embed.addFields(
-                { name: 'message link', value: `${newMessage.url}` },
-                { name: 'user', value: `${newMessage.author}` },
+                { name: 'message link', value: String(`${newMessage.url}`) },
+                { name: 'user', value: String(`${newMessage.author}`) },
             )
             embed.setTimestamp();
             channel.send({ embeds: [embed] });
