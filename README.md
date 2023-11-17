@@ -90,4 +90,7 @@ npm install dotenv
 
 ### TODO
 
-1. Find a todo
+1. update readme on new slash cmds and stuff
+2. become multipurpose (finish up admin cmds)
+basically never gonna do:
+3. move all log files to json 💀
